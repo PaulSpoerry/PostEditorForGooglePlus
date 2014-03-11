@@ -14,7 +14,7 @@
   src: local('Molengo'), local('Molengo-Regular'), url(//themes.googleusercontent.com/static/fonts/molengo/v5/z1JWuCBrQt_Ta83eqIo6Dg.woff) format('woff');
 }
 
-
+/*
 .special-plugin-button{
     background: #e5e5e5 !important;
     border: thin #cccccc;
@@ -23,7 +23,7 @@
     font: normal 13px Roboto,arial,sans-serif;
 
 
-    /*add !important to make sure our button gets the styles we want */
+    add !important to make sure our button gets the styles we want 
 }
 .special-plugin-button a{
     color: #737373;
@@ -68,11 +68,11 @@
     overflow-y: auto;
     padding: 3px;
     border: 1px solid #dcdcdc;
-    
+
     background-position-x: -13px;
     background-position-y: -919px;
     background-color: initial;
-}
+}*/
 
    
 
