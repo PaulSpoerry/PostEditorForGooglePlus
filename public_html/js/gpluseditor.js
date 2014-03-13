@@ -42,7 +42,7 @@ chrome.extension.sendMessage({}, function(response) {
             // Launch TipTip tooltip
             $('.tiptip a.button, .tiptip button').tipTip();
  
-            $( "#homehomeontheweb" ).click(function() { window.open("http://www.paulspoerry.com/code/google-plus-editor-formatting/"); });
+            $( "#homehomeontheweb" ).click(function() { window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/"); });
             $( "#gpeBold" ).mousedown(function() { applyPlusStyle("bold"); });
             $( "#gpeItalic" ).mousedown(function() { applyPlusStyle("italic"); });
             $( "#gpeStrike" ).mousedown(function() { applyPlusStyle("strike"); });
@@ -57,7 +57,7 @@ chrome.extension.sendMessage({}, function(response) {
             });
             $( ".gpeSymboleItemsItem" ).mousedown(function() { insertShape(this); });
         }
-
+        
         function applyPlusStyle(style) {
             var sel, range;
             if (window.getSelection) {
