@@ -8,58 +8,64 @@ chrome.extension.sendMessage({}, function(response) {
             // ----------------------------------------------------------
 
             $(document).ready(function() {
-                
-                
+              
             }); // END document.ready
             
-            // Close open dropdown slider/s by clicking elsewhwere on page
+            var added = 0;
+            $('div[guidedhelpid="sharebox_editor"]').on("focusin", null, null, function() {
+                if (added == 0) {
+                       $('div[guidedhelpid="sharebox_editor"]').after('\
+                            <div class="gpebuttons">\n\
+                                <a href="#" id="homehomeontheweb" class="button" title="To use Post Editor for Google+™ highlight the text you want to style.\nThen hit the button (ex:Bold) and G+ markup will be added to the highlighted text."><span class="icon icon145"></span><span class="label">Post Editor</span></a>\n\
+                                <a href="#" id="gpeBold" class="button left" title="Bold"><span class="icon icon20"></span></a>\n\
+                                <a href="#" id="gpeItalic" class="button middle" title="Italic"><span class="icon icon114"></span></a>\n\
+                                <a href="#" id="gpeStrike" class="button middle" title="Strikethrough"><span class="icon icon182"></span></a>\n\
+                                <div class="dropdown right" id="gpeSymbols">\n\
+                                    <a href="#" class="button right">\n\
+                                        <span class="icon icon73">Symbols</span>\n\
+                                        <span class="label">Symbols</span>\n\
+                                        <span class="toggle"></span>\n\
+                                    </a>\n\
+                                        <div id="gpeSymbolItems" class="dropdown-slider">\n\
+                                        </div> <!-- /.dropdown-slider -->\n\
+                                  </div> <!-- /.dropdown -->\n\
+                            </div>');
+    
+    
+                        $('#gpeSymbolItems').append(function() { return returnShapes(); });
+            
+                        // Launch TipTip tooltip
+                        $('.tiptip a.button, .tiptip button').tipTip();
+
+                        $( "#homehomeontheweb" ).click(function(e) { 
+                            e.preventDefault();
+                            window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/"); 
+                        });
+                        $( "#gpeBold" ).mousedown(function() { applyPlusStyle("bold"); });
+                        $( "#gpeItalic" ).mousedown(function() { applyPlusStyle("italic"); });
+                        $( "#gpeStrike" ).mousedown(function() { applyPlusStyle("strike"); });
+                        $( "#gpeSymbols" ).click(function() { 
+                            if (!$(this).find('span.toggle').hasClass('active')) {
+                                $('.dropdown-slider').slideUp();
+                                $('span.toggle').removeClass('active');
+                            }
+                            $(this).parent().find('.dropdown-slider').slideToggle('fast'); // open selected dropown
+                            $(this).find('span.toggle').toggleClass('active');
+                            return false;
+                        });
+                        $( ".gpeSymboleItemsItem" ).mousedown(function() { insertShape(this); });
+                    added = 1;
+                }
+            });
+        }
+        
+        // Close open dropdown slider/s by clicking elsewhwere on page
             $(document).bind('click', function (e) {
                 if (e.target.id !== $('.dropdown').attr('class')) {
                     $('.dropdown-slider').slideUp();
                     $('span.toggle').removeClass('active');
                 }
             }); // END document.bind
-   
-            $('div[guidedhelpid="sharebox_editor"]').after('\
-                <div class="gpebuttons">\n\
-                    <a href="#" id="homehomeontheweb" class="button" title="To use Post Editor for Google+™ highlight the text you want to style.\nThen hit the button (ex:Bold) and G+ markup will be added to the highlighted text."><span class="icon icon145"></span><span class="label">Post Editor</span></a>\n\
-                    <a href="#" id="gpeBold" class="button left" title="Bold"><span class="icon icon20"></span></a>\n\
-                    <a href="#" id="gpeItalic" class="button middle" title="Italic"><span class="icon icon114"></span></a>\n\
-                    <a href="#" id="gpeStrike" class="button middle" title="Strikethrough"><span class="icon icon182"></span></a>\n\
-                    <div class="dropdown right" id="gpeSymbols">\n\
-                        <a href="#" class="button right">\n\
-                            <span class="icon icon73">Symbols</span>\n\
-                            <span class="label">Symbols</span>\n\
-                            <span class="toggle"></span>\n\
-                        </a>\n\
-                            <div id="gpeSymbolItems" class="dropdown-slider">\n\
-                            </div> <!-- /.dropdown-slider -->\n\
-                      </div> <!-- /.dropdown -->\n\
-                </div>');
-            
-            $('#gpeSymbolItems').append(function() { return returnShapes(); });
-            
-            // Launch TipTip tooltip
-            $('.tiptip a.button, .tiptip button').tipTip();
- 
-            $( "#homehomeontheweb" ).click(function(e) { 
-                e.preventDefault();
-                window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/"); 
-            });
-            $( "#gpeBold" ).mousedown(function() { applyPlusStyle("bold"); });
-            $( "#gpeItalic" ).mousedown(function() { applyPlusStyle("italic"); });
-            $( "#gpeStrike" ).mousedown(function() { applyPlusStyle("strike"); });
-            $( "#gpeSymbols" ).click(function() { 
-                if (!$(this).find('span.toggle').hasClass('active')) {
-                    $('.dropdown-slider').slideUp();
-                    $('span.toggle').removeClass('active');
-                }
-                $(this).parent().find('.dropdown-slider').slideToggle('fast'); // open selected dropown
-                $(this).find('span.toggle').toggleClass('active');
-                return false;
-            });
-            $( ".gpeSymboleItemsItem" ).mousedown(function() { insertShape(this); });
-        }
         
         function applyPlusStyle(style) {
             var sel, range;
