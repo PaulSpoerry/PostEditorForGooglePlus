@@ -1,19 +1,18 @@
 chrome.extension.sendMessage({}, function(response) {
     var readyStateCheckInterval = setInterval(function() {
-        if (document.readyState === "complete") {
+        if ( document.readyState === "complete" && $('div[guidedhelpid="sharebox_editor"]').length === 0 ) {
             clearInterval(readyStateCheckInterval);
             // ----------------------------------------------------------
             // This part of the script triggers when page is done loading
-            console.log("Begin Google+Editor");
+            console.log("Begin Post Editor for Google+");
             // ----------------------------------------------------------
 
             $(document).ready(function() {
               
             }); // END document.ready
             
-            var added = 0;
             $('div[guidedhelpid="sharebox_editor"]').on("focusin", null, null, function() {
-                if (added == 0) {
+               if ( $( ".gpebuttons" ).length === 0 ) {
                        $('div[guidedhelpid="sharebox_editor"]').after('\
                             <div class="gpebuttons">\n\
                                 <a href="#" id="homehomeontheweb" class="button" title="To use Post Editor for Google+™ highlight the text you want to style.\nThen hit the button (ex:Bold) and G+ markup will be added to the highlighted text."><span class="icon icon145"></span><span class="label">Post Editor</span></a>\n\
@@ -54,7 +53,6 @@ chrome.extension.sendMessage({}, function(response) {
                             return false;
                         });
                         $( ".gpeSymboleItemsItem" ).mousedown(function() { insertShape(this); });
-                    added = 1;
                 }
             });
         }
