@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style>
+            .descendants *
+            { 
+                display: block;
+                border: 2px solid lightgrey;
+                color: lightgrey;
+                padding: 5px;
+                margin: 15px;
+            }
+            .top1 { color: black; }
+            .in1 {color: black; }
+            .cp { color: black; }
+        </style>
+        <script src="..\public_html\js\jquery-2.1.0.min.js"></script>
+        <script>
+            var readyStateCheckInterval = setInterval(function() {
+                if (document.readyState === "complete") {
+                    clearInterval(readyStateCheckInterval);
+                    console.log('ready fired');
+
+                    $('.cp').on("focusin", function() {
+                        if ($("#" + escapeCSSID(this.id)).find('#gpebuttons').length === 0) {
+                            $(this).append("<div id='gpebuttons'>added!</div>");
+                        }
+                    });
+                }
+            }, 10);
+
+            function escapeCSSID(id) { return id.replace(/(:|\.|\[|\])/g, "\\$1"); }
+
+
+//            $(document).ready(function() {
+//
+//                //$('div .cp').on("focusin", function() {
+//                $('div .cp').focus(function() {
+//                    console.log('in div .cp focusin');
+//
+//                });
+//
+//                $('.cp').on("hover", function() {
+//                    // $('div').on("hover", null, null, function() {
+//                    alert('1');
+//                    //$("div[class=cp").on("focusin", function() { //nope
+//                    if ($(this).attr("class") === "cp") {
+//                        alert('2');
+//                        if ($("#" + this.id).find('#gpd').length === 0) {
+//                            $(this).append("<div id='gpd'>added!</div>");
+//                        }
+//                        //$("#" + this.id).hide(); // this works
+//
+//                        if ($("#" + this.id).find('#innerstyff2').length !== 0) {
+//                            console.log("I found innerstyff2");
+//                        }
+//                        if ($("#" + this.id).find('#gpd').length !== 0) {
+//                            console.log("I found gpd");
+//                        }
+//                    }
+//                });
+//            });
+
+
+        </script>
+    </head>
+
+    <body>
+        <div class="top1 descendants">
+            <div class="in1">
+                <div id="stuff3" class="cp"><div id="innerstyff1"><input />stuff1</div></div>
+            </div>
+        </div>
+
+        <div class="top1 descendants">
+            <div class="in2">
+                <div id="stuff2" class="cp"><div id="innerstyff2"><input />stuff2</div></div>
+            </div>
+        </div>
+        <div class="top1 descendants">
+            <div id="z125ihqb3snntr04k04cehuwgrybxvxjbus0k.editor" jsname="L9AdLc" class="cp">
+                <div class="Pf">
+                    <div id=":9a.f" class="df b-K b-K-Xb URaP8 editable" g_editable="true" role="textbox" contenteditable="plaintext-only"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="descendants">my output
+            <div class="Tt bj">
+                <div class="Dt wu" tabindex="0" role="button">Add a comment...</div>
+            </div>
+        </div>
+
+
+
+
+    </body>
+
+</html>
