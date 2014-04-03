@@ -1,60 +1,18 @@
 chrome.extension.sendMessage({}, function(response) {
-
-    var readyStateCheckIntervalComments = setInterval(function() {
-        if (document.readyState === "complete") {
-            clearInterval(readyStateCheckIntervalComments);
-
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.target.className === "cp") {
-                        console.log(mutation.type);
-                        console.log(mutation.target.className);
-                        console.log(mutation.target);
-                        console.log(mutation.target.id);
-                        if ($("#" + escapeCSSID(mutation.target.id)).find('#gpebuttons').length === 0) {
-                            $("#" + escapeCSSID(mutation.target.id)).after("<div id='gpebuttons'>added!</div>");
-                        }
-                    }
-                    
-                });
-
-            });
-            observer.observe($('div[guidedhelpid="streamcontent"]')[0], {
-                attributes: true,
-                childList: true,
-                characterData: true,
-                subtree: true,
-                attributeFilter: ['class']
-            });
-
-
-            $(document).ready(function() { }); // END document.ready
-
-
-        }
-    }, 10);
-
-// ----------------
     var readyStateCheckInterval = setInterval(function() {
         if (document.readyState === "complete") {
             if (($('div[guidedhelpid="sharebox_editor"]').length === 0) || ($('div[guidedhelpid="sharebox_editor"]').length !== 0 && $(".gpebuttons").length === 0)) {
-                clearInterval(readyStateCheckInterval);
-                // ----------------------------------------------------------
-                // This part of the script triggers when page is done loading
-                console.log("Begin Post Editor for Google+");
-                // ----------------------------------------------------------
 
-                $(document).ready(function() {
+                console.log("--Post Editor for Google+: attempt attach to sharebox.");
 
-                }); // END document.ready
-
-                $('div[guidedhelpid="sharebox_editor"]').on("focusin", null, null, function() {
                     if ($(".gpebuttons").length === 0) {
-                        $('div[guidedhelpid="sharebox_editor"]').after( returnMainEditor('main') );
+                        $('div[guidedhelpid="sharebox_editor"]').after(returnMainEditor('main'));
 
                         function returnMainEditor(type) {
                             var label = '';
-                            if ( type === 'main') { label = 'Post Editor'; }
+                            if (type === 'main') {
+                                label = 'Post Editor';
+                            }
                             var s = '<div class="gpebuttons">\n\
                                     <a href="#" id="homehomeontheweb" class="button" title="To use Post Editor for Google+™ highlight the text you want to style.\nThen hit the button (ex:Bold) and G+ markup will be added to the highlighted text."><span class="icon icon145"></span><span class="label">' + label + '</span></a>\n\
                                     <a href="#" id="gpeBold" class="button left" title="Bold"><span class="icon icon20"></span></a>\n\
@@ -70,11 +28,13 @@ chrome.extension.sendMessage({}, function(response) {
                                             </div> <!-- /.dropdown-slider -->\n\
                                       </div> <!-- /.dropdown -->\n\
                                 </div>';
-                            
+
                             return s;
                         }
 
-                        $('#gpeSymbolItems').append(function() { return returnShapes(); });
+                        $('#gpeSymbolItems').append(function() {
+                            return returnShapes();
+                        });
 
                         // Launch TipTip tooltip
                         $('.tiptip a.button, .tiptip button').tipTip();
@@ -83,9 +43,15 @@ chrome.extension.sendMessage({}, function(response) {
                             e.preventDefault();
                             window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/");
                         });
-                        $("#gpeBold").mousedown(function() {   applyPlusStyle("bold"); });
-                        $("#gpeItalic").mousedown(function() { applyPlusStyle("italic"); });
-                        $("#gpeStrike").mousedown(function() { applyPlusStyle("strike"); });
+                        $("#gpeBold").mousedown(function() {
+                            applyPlusStyle("bold");
+                        });
+                        $("#gpeItalic").mousedown(function() {
+                            applyPlusStyle("italic");
+                        });
+                        $("#gpeStrike").mousedown(function() {
+                            applyPlusStyle("strike");
+                        });
                         $("#gpeSymbols").click(function() {
                             if (!$(this).find('span.toggle').hasClass('active')) {
                                 $('.dropdown-slider').slideUp();
@@ -95,9 +61,12 @@ chrome.extension.sendMessage({}, function(response) {
                             $(this).find('span.toggle').toggleClass('active');
                             return false;
                         });
-                        $(".gpeSymboleItemsItem").mousedown(function() { insertShape(this); });
+                        $(".gpeSymboleItemsItem").mousedown(function() {
+                            insertShape(this);
+                        });
+
+                        clearInterval(readyStateCheckInterval);
                     }
-                });
             }
 
             $(document).bind('click', function(e) {
@@ -105,7 +74,7 @@ chrome.extension.sendMessage({}, function(response) {
                     $('.dropdown-slider').slideUp(); // Close open dropdown slider/s by clicking elsewhwere on page
                     $('span.toggle').removeClass('active');
                 }
-            }); 
+            });
 
 
             function applyPlusStyle(style) {
@@ -165,7 +134,7 @@ chrome.extension.sendMessage({}, function(response) {
             }
         }
 
-    }, 10);
+    }, 100);
     function escapeCSSID(id) {
         return id.replace(/(:|\.|\[|\])/g, "\\$1");
     }
