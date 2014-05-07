@@ -5,15 +5,15 @@ chrome.extension.sendMessage({}, function(response) {
 
                 console.log("--Post Editor for Google+: attempt attach to sharebox.");
 
-                    if ($(".gpebuttons").length === 0) {
-                        $('div[guidedhelpid="sharebox_editor"]').after(returnMainEditor('main'));
+                if ($(".gpebuttons").length === 0) {
+                    $('div[guidedhelpid="sharebox_editor"]').after(returnMainEditor('main'));
 
-                        function returnMainEditor(type) {
-                            var label = '';
-                            if (type === 'main') {
-                                label = 'Post Editor';
-                            }
-                            var s = '<div class="gpebuttons">\n\
+                    function returnMainEditor(type) {
+                        var label = '';
+                        if (type === 'main') {
+                            label = 'Post Editor';
+                        }
+                        var s = '<div class="gpebuttons">\n\
                                     <a href="#" id="homehomeontheweb" class="button" title="To use Post Editor for Google+™ highlight the text you want to style.\nThen hit the button (ex:Bold) and G+ markup will be added to the highlighted text."><span class="icon icon145"></span><span class="label">' + label + '</span></a>\n\
                                     <a href="#" id="gpeBold" class="button left" title="Bold"><span class="icon icon20"></span></a>\n\
                                     <a href="#" id="gpeItalic" class="button middle" title="Italic"><span class="icon icon114"></span></a>\n\
@@ -28,48 +28,44 @@ chrome.extension.sendMessage({}, function(response) {
                                             </div> <!-- /.dropdown-slider -->\n\
                                       </div> <!-- /.dropdown -->\n\
                                 </div>';
-
-                            return s;
-                        }
-
-                        $('#gpeSymbolItems').append(function() {
-                            return returnShapes();
-                        });
-
-                        // Launch TipTip tooltip
-                        $('.tiptip a.button, .tiptip button').tipTip();
-
-                        $("#homehomeontheweb").click(function(e) {
-                            e.preventDefault();
-                            window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/");
-                        });
-                        $("#gpeBold").mousedown(function() {
-                            applyPlusStyle("bold");
-                        });
-                        $("#gpeItalic").mousedown(function() {
-                            applyPlusStyle("italic");
-                        });
-                        $("#gpeStrike").mousedown(function() {
-                            applyPlusStyle("strike");
-                        });
-                        $("#gpeSymbols").click(function() {
-                            if (!$(this).find('span.toggle').hasClass('active')) {
-                                $('.dropdown-slider').slideUp();
-                                $('span.toggle').removeClass('active');
-                            }
-                            $(this).parent().find('.dropdown-slider').slideToggle('fast'); // open selected dropown
-                            $(this).find('span.toggle').toggleClass('active');
-                            return false;
-                        });
-                        $(".gpeSymboleItemsItem").mousedown(function() {
-                            insertShape(this);
-                        });
-
-                        clearInterval(readyStateCheckInterval);
+                        return s;
                     }
+
+                    $('#gpeSymbolItems').append(function() { return returnShapes(); });
+
+                    $('.tiptip a.button, .tiptip button').tipTip(); 
+
+                    $("#homehomeontheweb").on("click", function(event) {
+                        event.preventDefault();
+                        window.open("http://www.paulspoerry.com/code/post-editor-for-google-plus/");
+                    });
+
+                    $("#gpeBold, #gpeItalic, #gpeStrike").on("click", function(event) {
+                        event.preventDefault();
+                        applyPlusStyle($(this).attr("id").replace('gpe', '').toLowerCase());
+                    });
+                    
+                    $("#gpeSymbols").on("click", function(event) {
+                        event.preventDefault();
+                        if (!$(this).find('span.toggle').hasClass('active')) {
+                            $('.dropdown-slider').slideUp();
+                            $('span.toggle').removeClass('active');
+                        }
+                        $(this).parent().find('.dropdown-slider').slideToggle('fast'); // open selected dropown
+                        $(this).find('span.toggle').toggleClass('active');
+                        return false;
+                    });
+
+                    $(".gpeSymboleItemsItem").on("mousedown", function(event) {
+                        event.preventDefault();
+                        insertShape(this);
+                    });
+
+                    clearInterval(readyStateCheckInterval);
+                }
             }
 
-            $(document).bind('click', function(e) {
+            $(document).on('click', function(e) {
                 if (e.target.id !== $('.dropdown').attr('class')) {
                     $('.dropdown-slider').slideUp(); // Close open dropdown slider/s by clicking elsewhwere on page
                     $('span.toggle').removeClass('active');
@@ -134,10 +130,7 @@ chrome.extension.sendMessage({}, function(response) {
             }
         }
 
-    }, 100);
-    function escapeCSSID(id) {
-        return id.replace(/(:|\.|\[|\])/g, "\\$1");
-    }
+    }, 50);
 });
 //http://ikreator.com/special-characters/#legal
 //http://www.tumuski.com/code/htmlencode/
